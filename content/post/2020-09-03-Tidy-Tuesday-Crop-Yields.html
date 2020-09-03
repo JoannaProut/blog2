@@ -1,0 +1,102 @@
+---
+title: 'Tidy Tuesday for 9/1/2020'
+author: " "
+date: " "
+output: html_document
+---
+
+
+
+<p>For this Tidy Tuesday challenge we used data files from <em>Our World in Data</em> describing crop yields across the globe from 1960-present. Data can be found at <a href="https://ourworldindata.org/crop-yields" class="uri">https://ourworldindata.org/crop-yields</a></p>
+<p>Peas seemed appealing at the time and I never see them growing here in Maryland– where do they come from?</p>
+<p>I plotted a line graph with tons of peas produced per hectare on the y-axis, year (range from 1990 to 2020) on the x-axis, and continent as line color.</p>
+<p>I learned how to use the directlabels package to put continent names next to lines rather than using a legend connecting color to continent.</p>
+<pre class="r"><code>knitr::opts_chunk$set(echo = TRUE)
+
+#load libaries
+library (tidyverse)
+library (directlabels)
+library (patchwork)
+
+#set wd
+setwd (&quot;/Users/jprout/OneDrive - University of Maryland School of Medicine/R/TidyTues/crops&quot;)
+
+#Load data
+crop &lt;- readr::read_csv(&#39;https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-09-01/key_crop_yields.csv&#39;)
+
+#Change colname 
+colnames(crop)[10] &lt;- &quot;peas&quot;
+
+#subset to peas
+peas &lt;- select (crop, Year, peas, Entity, Code)
+
+#make NA equal Region/Continent for code
+peas$Code &lt;- fct_explicit_na(peas$Code, na_level = &quot;Region/Continent&quot;)
+
+#change Northern America to North America
+peas$Entity &lt;- recode (peas$Entity, &quot;Northern America&quot; = &quot;North America&quot;)
+
+
+#filter just to include continents
+p_cont &lt;- filter (peas, Entity == &quot;Africa&quot; | Entity == &quot;Asia&quot;|
+                    Entity == &quot;Australia&quot;| Entity == &quot;Europe&quot;|
+                    Entity == &quot;South America&quot;| Entity == &quot;North America&quot;)
+
+
+#plot amount of peas by year and entity for continents
+continent_plot &lt;- ggplot (data = p_cont, aes (x=Year, y = peas, color = Entity)) + 
+  geom_smooth (se=FALSE)+
+  theme (axis.text.x = element_text (color = &quot;black&quot;), 
+         axis.text.y = element_text (color = &quot;black&quot;),  
+         panel.background = element_blank (),
+         axis.line = element_line (color = &quot;black&quot;),
+         legend.title = element_blank(), 
+         legend.position=&quot;none&quot;,
+         plot.margin = margin (0.1, 2.6, 0.1, 0.1, &quot;cm&quot;))+
+  labs(title = &quot;North America Takes Lead in Pea Production&quot;, 
+       x = &quot; &quot;, 
+       y = &quot;Tons per Hectare&quot;)  
+
+#adding labels at end
+continent_plot_labels &lt;- direct.label (continent_plot, method = list(col = &quot;black&quot;, &quot;last.bumpup&quot;)) +
+  scale_y_continuous (limits = c(0,3))+
+  scale_x_continuous (limits = c (1990, 2020))+
+  coord_cartesian (clip = &quot;off&quot;)
+
+print (continent_plot_labels)</code></pre>
+<p><img src="/post/2020-09-03-Tidy-Tuesday-Crop-Yields_files/figure-html/setup-1.png" width="672" /></p>
+<p>This graph was more interesting than I thought it would be. Why did North American pea production increase while European pea production dipped lower. To look at this question I plotted pea production over time for Europe, North America, and Canada.</p>
+<pre class="r"><code>#getting North American and European divisions (dont see Western Europe)
+EuropeandNA &lt;- filter (peas, Entity == &quot;Europe&quot; |Entity == &quot;United States&quot;|
+                    Entity == &quot;Canada&quot;)
+
+#limiting time frame from 1990-present
+EuropeandNA &lt;- filter (EuropeandNA, Year &gt;= 1990)
+
+#line chart of pea production over time in Europe and NA
+europeNA &lt;- ggplot (data = EuropeandNA, aes (x=Year, y = peas, color = Entity)) + 
+  geom_smooth (se=FALSE) +
+  theme (axis.text.x = element_text (color = &quot;black&quot;), 
+         axis.text.y = element_text (color = &quot;black&quot;),  
+         panel.background = element_blank (),
+         axis.line = element_line (color = &quot;black&quot;),
+         legend.title = element_blank(), 
+         legend.position=&quot;none&quot;,
+         plot.margin = margin (0.1, 2.6, 0.1, 0.1, &quot;cm&quot;)) +
+  labs(title = &quot;Canada Drives Increase in North American Peas&quot;, 
+       x = &quot; &quot;, 
+       y = &quot;Tons per Hectare&quot;) 
+
+europeNAwithlabels &lt;- direct.label (europeNA, method = list(col = &quot;black&quot;, &quot;last.bumpup&quot;)) +
+  scale_y_continuous (limits = c(0,3))+
+  scale_x_continuous (limits = c (1990, 2020))+
+  coord_cartesian (clip = &quot;off&quot;)
+
+print (europeNAwithlabels)</code></pre>
+<p><img src="/post/2020-09-03-Tidy-Tuesday-Crop-Yields_files/figure-html/Peas%20in%20Europe%20and%20North%20America-1.png" width="672" /></p>
+<p>Looks like more peas are coming from Canada! They must like cold weather.</p>
+<p>My other goal was to use the patchwork package to combine graphs.</p>
+<pre class="r"><code>patchwork &lt;- continent_plot_labels + europeNAwithlabels+ plot_layout (ncol = 1)
+
+print(patchwork)</code></pre>
+<p><img src="/post/2020-09-03-Tidy-Tuesday-Crop-Yields_files/figure-html/patchwork-1.png" width="672" /></p>
