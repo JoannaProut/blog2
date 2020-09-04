@@ -1,7 +1,7 @@
 ---
 title: 'Tidy Tuesday for 9/1/2020'
 author: " "
-date: " "
+date: "2020-09-03"
 output: html_document
 ---
 
