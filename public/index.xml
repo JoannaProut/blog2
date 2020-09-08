@@ -6,6 +6,7 @@
     <description>Recent content on Joanna Prout</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Thu, 03 Sep 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
@@ -16,16 +17,16 @@
       <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>/about/</guid>
-      <description>This is a website to post #TidyTuesday and other #rstats projects.
+      <description>My name is Joanna Prout and I began my professional career as a social worker, then received my PhD in clinical psychology. I am passionate about using data to improve behavioral healthcare. This my website to post #TidyTuesday and other #rstats projects.
 This is a &amp;ldquo;hello world&amp;rdquo; example website for the blogdown package. The theme was forked from @jrutheiser/hugo-lithium-theme and modified by Yihui Xie.</description>
     </item>
     
     <item>
       <title>Tidy Tuesday for 9/1/2020</title>
-      <link>/1/01/01/tidy-tuesday-for-9/1/2020/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <link>/2020/09/03/tidy-tuesday-for-9/1/2020/</link>
+      <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/1/01/01/tidy-tuesday-for-9/1/2020/</guid>
+      <guid>/2020/09/03/tidy-tuesday-for-9/1/2020/</guid>
       <description>For this Tidy Tuesday challenge we used data files from Our World in Data describing crop yields across the globe from 1960-present. Data can be found at https://ourworldindata.org/crop-yields
 Peas seemed appealing at the time and I never see them growing here in Maryland– where do they come from?
 I plotted a line graph with tons of peas produced per hectare on the y-axis, year (range from 1990 to 2020) on the x-axis, and continent as line color.</description>
