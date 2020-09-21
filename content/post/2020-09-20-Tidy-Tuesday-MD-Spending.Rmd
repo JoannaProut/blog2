@@ -1,0 +1,122 @@
+---
+title: "Tidy Tuesday- MD Spending on Children"
+author: "JTP"
+date: "9/20/2020"
+output: html_document
+---
+TEXT ABOUT PROJECT.
+
+```{r setup, pull in file and organize, include = FALSE, echo = FALSE}
+setwd ("/Users/jprout/OneDrive - University of Maryland School of Medicine/R/TidyTues/kids")
+library (tidyverse)
+kids <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-09-15/kids.csv')
+#change variables to factors
+factors <- c("state", "variable")
+kids[,factors] <- lapply(kids[,factors],factor)
+
+
+#Filter for Maryland and select variables
+MD <- filter (kids, state == "Maryland")
+MD <- select (MD, variable, year, inf_adj_perchild)
+
+#2011
+top11 <- filter (MD, year == 2011) 
+top11$rank <- NA
+top11$rank[order(-top11$inf_adj_perchild)] <- 1:nrow(top11)
+
+#2012
+top12 <- filter (MD, year == 2012) 
+top12$rank <- NA
+top12$rank[order(-top12$inf_adj_perchild)] <- 1:nrow(top12)
+
+#Bind together
+bind <- rbind (top11, top12)
+
+#2013
+top13 <- filter (MD, year == 2013) 
+top13$rank <- NA
+top13$rank[order(-top13$inf_adj_perchild)] <- 1:nrow(top13)
+ 
+#bind together
+bind2 <- rbind (bind, top13)
+
+#2014
+top14 <- filter (MD, year == 2014) 
+top14$rank <- NA
+top14$rank[order(-top14$inf_adj_perchild)] <- 1:nrow(top14)
+
+#bind
+bind3 <- rbind (bind2, top14)
+
+#2015
+top15 <- filter (MD, year == 2015) 
+top15$rank <- NA
+top15$rank[order(-top15$inf_adj_perchild)] <- 1:nrow(top15)
+
+#bind
+bind4 <- rbind (bind3, top15)
+
+#2016
+top16 <- filter (MD, year == 2016) 
+top16$rank <- NA
+top16$rank[order(-top16$inf_adj_perchild)] <- 1:nrow(top16)
+
+#bind
+bind5 <- rbind (bind4, top16)
+
+
+#Bumpchart info FROM https://www.statology.org/bump-chart-in-r-using-ggplot2/
+#Recode bind5$variable
+
+bind5$variable <- recode (bind5$variable, 
+                          "addCC" = "Add'l CTC",
+                          "CTC" = "CTC",
+                          "stateEITC" = "State EITC",
+                          "fedEITC" = "Federal EITC",
+                          "PK12ed" = "PK-12 Ed",
+                          "highered" = "Higher Ed",
+                          "edsubs" = "Ed Subsidies",
+                          "edservs" = "Ed Special Serv",
+                          "pell" = "Pell Grants",
+                          "HeadStartPriv" = "Head Start",
+                          "TANFbasic" = "TANF",
+                          "othercashserv" = "Cash Assist",
+                          "HCD" = "Hous/Comm Dev",
+                          "SNAP" = "SNAP",
+                          "socsec" = "Social Security",
+                          "fedSSI" = "Federal SSI",
+                          "CTC" = "Child Tax Credit",
+                          "unemp" = "Unemployment",
+                          "wcomp" = "Workers' Comp",
+                          "Medicaid_CHIP" = "Medicaid/CHIP",
+                          "pubhealth" = "Public Health",
+                          "other_health" = "Health (not MA)",
+                          "lib" = "Libraries",
+                          "parkrec" = "Parks/Rec")
+```
+
+
+```{r bumpchart, fig.width=6, fig.height=10, echo = FALSE}
+#MAKE  BUMPCHART
+ggplot(bind5, aes(x = as.factor(year), y = rank, group = variable)) +
+  geom_line(aes(color = variable, alpha = 1), size = 2) +
+  geom_point(aes(color = variable, alpha = 1), size = 4) +
+  geom_point(color = "#FFFFFF", size = 1) +
+  scale_y_reverse(breaks = 1:23) + 
+  theme(legend.position = 'none',
+        panel.background = element_blank (),
+        axis.text.x = element_text (color = "black"),
+        axis.text.y = element_blank (),
+        axis.ticks.x = element_blank (),
+        axis.ticks.y = element_blank ()) +
+  geom_text (data = bind5 %>% filter (year == 2011), aes (label = variable, 
+                                                          vjust = -1.0)) +
+  geom_text (data = bind5 %>% filter (year == 2016), 
+              aes (label = round (inf_adj_perchild, digits = 2), vjust = -1.0)) +
+  labs(x = ' ', y = '', 
+       title = 'Ranked Categories of Maryland Public Spending on Children', 
+       subtitle = 'Thousands of $ per child (adj for inflation)',
+       caption = "More information here: https://jrosen48.github.io/tidykids/articles/tidykids-codebook.html") 
+  
+```
+
