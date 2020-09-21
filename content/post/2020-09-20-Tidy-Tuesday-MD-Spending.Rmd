@@ -122,7 +122,7 @@ ggplot(bind5, aes(x = as.factor(year), y = rank, group = variable)) +
               aes (label = round (inf_adj_perchild, digits = 2), vjust = -1.0)) +
   labs(x = ' ', y = '', 
        title = 'Ranked Categories of Maryland Public Spending on Children', 
-       subtitle = 'Thousands of $ per child (adj for inflation)',
+       subtitle = 'Thousands of $ per child (adjuted for inflation)',
        caption = "More information here: https://jrosen48.github.io/tidykids/articles/tidykids-codebook.html") 
   
 ```
