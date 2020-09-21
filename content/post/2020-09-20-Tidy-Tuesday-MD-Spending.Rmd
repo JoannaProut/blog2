@@ -4,7 +4,14 @@ author: " "
 date: "2020-09-20"
 output: html_document
 ---
-TEXT ABOUT PROJECT.
+For this TidyTuesday Challenge we worked with a dataset provied by Joshua Rosenberg (https://twitter.com/jrosenberg6432) showing categories of public spending on children in the US by state and year. 
+
+I limited the date to Maryland and the years of 2011-2016 and used a "bumpchart" to look at the ranking of categories of spending over time (from most money to least money spent).
+
+Maryland consistently spent the most money on PK-12 Education, followed by other healh services excluding Medicaid/CHIP.
+
+I also noticed that spending on unemployment and the Child Tax Credit (CTC) decreased over this 5 year period.
+
 
 ```{r setup, pull in file and organize, include = FALSE, echo = FALSE}
 setwd ("/Users/jprout/OneDrive - University of Maryland School of Medicine/R/TidyTues/kids")
@@ -81,7 +88,7 @@ bind5$variable <- recode (bind5$variable,
                           "HeadStartPriv" = "Head Start",
                           "TANFbasic" = "TANF",
                           "othercashserv" = "Cash Assist",
-                          "HCD" = "Hous/Comm Dev",
+                          "HCD" = "Housing",
                           "SNAP" = "SNAP",
                           "socsec" = "Social Security",
                           "fedSSI" = "Federal SSI",
