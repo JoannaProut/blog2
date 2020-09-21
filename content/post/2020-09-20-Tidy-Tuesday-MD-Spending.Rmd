@@ -1,7 +1,7 @@
 ---
 title: "Tidy Tuesday- MD Spending on Children"
-author: "JTP"
-date: "9/20/2020"
+author: " "
+date: "2020-09-20"
 output: html_document
 ---
 TEXT ABOUT PROJECT.
