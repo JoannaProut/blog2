@@ -22,7 +22,7 @@ library (directlabels)
 library (patchwork)
 
 #set wd
-setwd ("/Users/jprout/OneDrive - University of Maryland School of Medicine/R/TidyTues/crops")
+setwd ("/Users/jprout/OneDrive - University of Maryland School of Medicine/R/blog2/blog2/content/post")
 
 #Load data
 crop <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-09-01/key_crop_yields.csv')

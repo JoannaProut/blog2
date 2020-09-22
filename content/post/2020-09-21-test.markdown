@@ -1,0 +1,132 @@
+---
+title: test
+author: Joanna Prout
+date: '2020-09-21'
+slug: test
+categories: []
+tags: []
+---
+
+TEST POST
+
+
+```r
+#load libaries
+library (tidyverse)
+```
+
+```
+## -- Attaching packages ---------------------- tidyverse 1.3.0 --
+```
+
+```
+## v ggplot2 3.3.2     v purrr   0.3.4
+## v tibble  3.0.3     v dplyr   1.0.2
+## v tidyr   1.1.1     v stringr 1.4.0
+## v readr   1.3.1     v forcats 0.5.0
+```
+
+```
+## -- Conflicts ------------------------- tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+```
+
+```r
+library (directlabels)
+library (patchwork)
+
+#set wd
+setwd ("/Users/jprout/OneDrive - University of Maryland School of Medicine/R/blog2/blog2/content/post")
+
+#Load data
+crop <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-09-01/key_crop_yields.csv')
+```
+
+```
+## Parsed with column specification:
+## cols(
+##   Entity = col_character(),
+##   Code = col_character(),
+##   Year = col_double(),
+##   `Wheat (tonnes per hectare)` = col_double(),
+##   `Rice (tonnes per hectare)` = col_double(),
+##   `Maize (tonnes per hectare)` = col_double(),
+##   `Soybeans (tonnes per hectare)` = col_double(),
+##   `Potatoes (tonnes per hectare)` = col_double(),
+##   `Beans (tonnes per hectare)` = col_double(),
+##   `Peas (tonnes per hectare)` = col_double(),
+##   `Cassava (tonnes per hectare)` = col_double(),
+##   `Barley (tonnes per hectare)` = col_double(),
+##   `Cocoa beans (tonnes per hectare)` = col_double(),
+##   `Bananas (tonnes per hectare)` = col_double()
+## )
+```
+
+```r
+#Change colname 
+colnames(crop)[10] <- "peas"
+
+#subset to peas
+peas <- select (crop, Year, peas, Entity, Code)
+
+#make NA equal Region/Continent for code
+peas$Code <- fct_explicit_na(peas$Code, na_level = "Region/Continent")
+
+#change Northern America to North America
+peas$Entity <- recode (peas$Entity, "Northern America" = "North America")
+
+
+#filter just to include continents
+p_cont <- filter (peas, Entity == "Africa" | Entity == "Asia"|
+                    Entity == "Australia"| Entity == "Europe"|
+                    Entity == "South America"| Entity == "North America")
+
+
+#plot amount of peas by year and entity for continents
+continent_plot <- ggplot (data = p_cont, aes (x=Year, y = peas, color = Entity)) + 
+  geom_smooth (se=FALSE)+
+  theme (axis.text.x = element_text (color = "black"), 
+         axis.text.y = element_text (color = "black"),  
+         panel.background = element_blank (),
+         axis.line = element_line (color = "black"),
+         legend.title = element_blank(), 
+         legend.position="none",
+         plot.margin = margin (0.1, 2.6, 0.1, 0.1, "cm"))+
+  labs(title = "North America Takes Lead in Pea Production", 
+       x = " ", 
+       y = "Tons per Hectare")  
+
+#adding labels at end
+continent_plot_labels <- direct.label (continent_plot, method = list(col = "black", "last.bumpup")) +
+  scale_y_continuous (limits = c(0,3))+
+  scale_x_continuous (limits = c (1990, 2020))+
+  coord_cartesian (clip = "off")
+```
+
+```
+## `geom_smooth()` using method = 'loess' and formula 'y ~ x'
+```
+
+```r
+print (continent_plot_labels)
+```
+
+```
+## `geom_smooth()` using method = 'loess' and formula 'y ~ x'
+```
+
+```
+## Warning: Removed 174 rows containing non-finite values (stat_smooth).
+```
+
+```
+## `geom_smooth()` using method = 'loess' and formula 'y ~ x'
+```
+
+```
+## Warning: Removed 174 rows containing non-finite values (stat_smooth).
+```
+
+<img src="/post/2020-09-21-test_files/figure-html/unnamed-chunk-1-1.png" width="672" />
+

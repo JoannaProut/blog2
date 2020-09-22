@@ -14,7 +14,7 @@ I also noticed that spending on unemployment and the Child Tax Credit (CTC) decr
 
 
 ```{r setup, pull in file and organize, include = FALSE, echo = FALSE}
-setwd ("/Users/jprout/OneDrive - University of Maryland School of Medicine/R/TidyTues/kids")
+setwd ("/Users/jprout/OneDrive - University of Maryland School of Medicine/R/blog2/blog2/content/post")
 library (tidyverse)
 kids <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-09-15/kids.csv')
 #change variables to factors
