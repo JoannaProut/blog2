@@ -6,10 +6,20 @@
     <description>Recent content in Posts on Joanna Prout</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 20 Sep 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 24 Sep 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Tidy Tuesday- Mt. Everest Climb Duration and Outcome</title>
+      <link>/2020/09/24/tidy-tuesday-mt-everest-climb-duration-and-outcome/</link>
+      <pubDate>Thu, 24 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/09/24/tidy-tuesday-mt-everest-climb-duration-and-outcome/</guid>
+      <description>For this Tidy Tuesday challenge I looked at the duration of Mt. Everest climbs in days and their outcome (success or failure) over the past century. Looking at the plot, it seems like you want to get in and out within 50-60 days!
+## ## Downloading file 1 of 3: `peaks.csv`## Downloading file 2 of 3: `members.csv`## Downloading file 3 of 3: `expeditions.csv````</description>
+    </item>
     
     <item>
       <title>Tidy Tuesday- MD Spending on Children</title>
